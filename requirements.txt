@@ -5,3 +5,6 @@ plotly
 pymongo[srv]
 python-dotenv
 streamlit-autorefresh
+
+statsmodels
+pmdarima
