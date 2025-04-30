@@ -98,7 +98,7 @@ def validate_data(df):
 
 
 def arima_forecast(df):
-    st.subheader("🔮 WQI Forecast ")
+    st.subheader("🔮 WQI Time Series Forecast using ARIMA")
 
     if 'wqi' not in df.columns or 'timestamp' not in df.columns:
         st.warning("Need both 'wqi' and 'timestamp' columns for forecasting")
@@ -381,17 +381,21 @@ def show_summary(df):
 def main():
     st.title("🌊 Real-Time Water Quality Analyzer")
 
+    # Sidebar Configuration (removed DB/Collection inputs)
     st.sidebar.header("⚙️ Settings")
-    db_name = st.sidebar.text_input("Database Name", value=os.getenv("DB_NAME", ""))
-    collection_name = st.sidebar.text_input("Collection Name", value=os.getenv("COLLECTION_NAME", ""))
     timestamp_field = st.sidebar.text_input("Timestamp Field", value="timestamp")
     refresh_rate = st.sidebar.slider("Refresh Interval (seconds)", 5, 60, 10)
 
+    # Auto-refresh logic
     st_autorefresh(interval=refresh_rate * 1000, key="data_refresher")
     st.markdown(f"Last Updated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
 
+    # Get DB and Collection from .env
+    db_name = os.getenv("DB_NAME")
+    collection_name = os.getenv("COLLECTION_NAME")
+
     if not db_name or not collection_name:
-        st.warning("Please enter both Database and Collection name.")
+        st.warning("Missing DB configuration. Please check your .env file.")
         return
 
     client = get_mongo_client()
