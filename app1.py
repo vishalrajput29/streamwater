@@ -98,7 +98,7 @@ def validate_data(df):
 
 
 def arima_forecast(df):
-    st.subheader("🔮 WQI Time Series Forecast using ARIMA")
+    st.subheader("🔮 WQI Time Series")
 
     if 'wqi' not in df.columns or 'timestamp' not in df.columns:
         st.warning("Need both 'wqi' and 'timestamp' columns for forecasting")
